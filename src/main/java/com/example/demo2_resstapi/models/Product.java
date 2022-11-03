@@ -3,10 +3,12 @@ package com.example.demo2_resstapi.models;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "tblProduct")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) //auto-increment
     private Long id;
+    @Column(nullable = false, unique = true, length = 300)
     private String productName;
     private int year;
     private Double price;
@@ -74,4 +76,8 @@ public class Product {
                 ", url='" + url + '\'' +
                 '}';
     }
+
+
+
+
 }

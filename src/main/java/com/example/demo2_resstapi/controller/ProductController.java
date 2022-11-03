@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Id;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,6 +65,7 @@ public class ProductController {
                     product.setProductName(newProduct.getProductName());
                     product.setYear(newProduct.getYear());
                     product.setPrice(newProduct.getPrice());
+                    product.setUrl(newProduct.getUrl());
                     return repository.save(product);
                 }).orElseGet(()-> {
                     newProduct.setId(id);
@@ -83,22 +85,28 @@ public class ProductController {
         //                    "url": ""
         //        }
         //    }
-
     }
 
     //Delte a product => DELETE mothod
     @DeleteMapping("/{id}")
     ResponseEntity<ResponseObject> deleteProduct(@PathVariable Long id){
         boolean exists = repository.existsById(id);
-        if(exists){
+        if(exists) {
             repository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("ok","Delete product successfully", "")
+                    new ResponseObject("Ok", "Delete successfully", "")
             );
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                new ResponseObject("failded", "Cannot find product id for delete", "")
-        );
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("failed", "Cannot fint product id for delete", "")
+            );
+        }
+//        {   KET QUA SE TRA VE NHU SAU
+//            "status": "Ok",
+//                "message": "Delete successfully",
+//                "data": ""
+//        }
     }
 
 
